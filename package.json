@@ -1,27 +1,31 @@
 {
-  "name": "fish-timer",
-  "version": "1.0.0",
-  "description": "Update the times for the aquarium lights (HeliaLux Spectrum) to the dusk & dawn times",
-  "main": "main.ts",
-  "scripts": {
-    "test": "jest"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/jertje260/fish-timer.git"
-  },
-  "author": "Jeroen Broekhuizen",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/jertje260/fish-timer/issues"
-  },
-  "homepage": "https://github.com/jertje260/fish-timer#readme",
-  "dependencies": {},
-  "devDependencies": {
-    "@types/jest": "^24.0.18",
-    "@types/node": "^12.7.3",
-    "jest": "^24.9.0",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.6.2"
-  }
+    "name": "fish-timer",
+    "version": "1.0.0",
+    "description": "Update the times for the aquarium lights (HeliaLux Spectrum) to the dusk & dawn times",
+    "main": "main.ts",
+    "scripts": {
+        "test": "jest"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jertje260/fish-timer.git"
+    },
+    "author": "Jeroen Broekhuizen",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jertje260/fish-timer/issues"
+    },
+    "homepage": "https://github.com/jertje260/fish-timer#readme",
+    "dependencies": {
+        "request": "^2.88.0",
+        "request-promise": "^4.2.4"
+    },
+    "devDependencies": {
+        "@types/jest": "^24.0.18",
+        "@types/node": "^12.7.3",
+        "@types/request-promise": "^4.1.44",
+        "jest": "^24.9.0",
+        "ts-jest": "^24.0.2",
+        "typescript": "^3.6.2"
+    }
 }
