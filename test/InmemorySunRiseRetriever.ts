@@ -5,7 +5,7 @@ export class InmemorySunRiseRetriever implements IRetrieveSunSetSunRise {
 	public SunSetSunRise: SunSetSunRise | null = null;
 	public Retrieved: boolean = false;
 
-	GetSunSetSunRise(today: Date, latitude: number, longitude: number): Promise<SunSetSunRise> {
+	GetSunSetSunRise(latitude: number, longitude: number): Promise<SunSetSunRise> {
 		return new Promise<SunSetSunRise>((resolve, reject) =>{		
 			if(this.SunSetSunRise !== null){
 				this.Retrieved = true;

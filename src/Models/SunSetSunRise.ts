@@ -1,3 +1,14 @@
-export class SunSetSunRise{
-	constructor(public SunRise: Date, public SunSet: Date){}
+export interface SunSetSunRise {
+	/**
+	 * Time of sun rise in UTC
+	 */
+	SunRise: Date;
+	/**
+	 * Time of sun set in UTC
+	 */
+	SunSet: Date;
+	/**
+	 * Day length is seconds
+	 */
+	DayLength: number;
 }
