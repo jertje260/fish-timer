@@ -2,14 +2,19 @@ import { IRetrieveSunSetSunRise } from "../src/IRetrieveSunRiseSunSet";
 import { SunSetSunRise } from "../src/Models/SunSetSunRise";
 
 export class InmemorySunRiseRetriever implements IRetrieveSunSetSunRise {
-	public SunSetSunRise: SunSetSunRise | null = null;
+	public SunSetSunRises: SunSetSunRise[] = [];
 	public Retrieved: boolean = false;
 
-	GetSunSetSunRise(latitude: number, longitude: number): Promise<SunSetSunRise> {
+	GetSunSetSunRise(latitude: number, longitude: number, day: Date): Promise<SunSetSunRise> {
 		return new Promise<SunSetSunRise>((resolve, reject) =>{		
-			if(this.SunSetSunRise !== null){
+			var toReturn = this.SunSetSunRises.find((element) =>{
+				return element.SunRise.getFullYear() === day.getFullYear() && 
+					element.SunRise.getMonth() === day.getMonth() && 
+					element.SunRise.getDate() === day.getDate();
+			})
+			if(toReturn !== undefined){
 				this.Retrieved = true;
-				resolve(this.SunSetSunRise);
+				resolve(toReturn);
 			} else {
 				reject(new Error("SunSetSunRise not set"));
 			}

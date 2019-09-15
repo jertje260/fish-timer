@@ -9,9 +9,9 @@ export class SunRiseSunSetAdapter implements IRetrieveSunSetSunRise {
 		json: true
 	};
 
-	GetSunSetSunRise(latitude: number, longitude: number): Promise<SunSetSunRise> {
+	GetSunSetSunRise(latitude: number, longitude: number, day: Date): Promise<SunSetSunRise> {
 		return new Promise<SunSetSunRise>((resolve, reject) => {
-			request.get(`${this.url}lat=${latitude}&lng=${longitude}&date=today&formatted=0`, this.options)
+			request.get(`${this.url}lat=${latitude}&lng=${longitude}&date=${day.getFullYear()}-${day.getMonth()+1}-${day.getDate()}&formatted=0`, this.options)
 				.then((response: SunRiseSunSetResponse) => {
 					const returnModel: SunSetSunRise = {
 						DayLength: response.results.day_length,
