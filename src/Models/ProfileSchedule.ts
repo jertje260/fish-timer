@@ -6,7 +6,7 @@ export class ProfileSchedule {
     }
 
     public GetPreviousDayForProfile(profile: Profile, currentDate: Date): Date {
-
+        
 
         return currentDate;
     }
