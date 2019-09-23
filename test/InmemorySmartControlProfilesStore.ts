@@ -5,9 +5,10 @@ import { ProfileSchedule } from "../src/Models/ProfileSchedule";
 export class InmemorySmartControlProfilesStore implements IStoreSmartControlProfiles {
 	public ActiveProfile: Profile | null = null;
 	public UpdatedProfile: Profile | null = null;
-	public IsActiveProfileRetrieved: boolean = false
-	public IsProfileUpdated: boolean = false;
+	public IsActiveProfileRetrieved = false;
+	public IsProfileUpdated = false;
 	public ProfileSchedule: ProfileSchedule | null = null;
+	public ScheduleRetrieved = false;
 
 
 	GetActiveProfile(today: Date): Promise<Profile> {
@@ -29,7 +30,13 @@ export class InmemorySmartControlProfilesStore implements IStoreSmartControlProf
 	}
 
 	GetProfileSchedule(): Promise<ProfileSchedule> {
-		throw new Error("Method not implemented.");
+		return new Promise((resolve, reject) => {
+			this.ScheduleRetrieved = true;
+			if (this.ProfileSchedule !== null) {
+				resolve(this.ProfileSchedule);
+			}
+			reject(new Error("No schedule given"));
+		})
 	}
 
 }

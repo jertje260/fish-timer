@@ -21,3 +21,8 @@
 	CINT: [0,0,0,0,0,0,0,0,0,0,0,0,0]
 	CMOT: [0,0,0,0,0,0,0,0,0,0,0,0,0]
 	```
+
+* `/wpvars.js` GET
+	```
+	lang=1;profiles=["Profile 1","Standard","Workdays","Free days","Profile 5","Profile 6","Profile 7","Profile 8"];profsel=[2,2,3,2,2,3,3];
+	```

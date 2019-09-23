@@ -11,9 +11,10 @@ export class UpdateProfilesWithNewTimes {
 
 	public async execute(): Promise<void> {
 		var today = new Date();
+		
 		var profileSchedule = await this._profileStore.GetProfileSchedule();
 
-		var sunInfo = await this._sunSetRetriever.GetSunSetSunRise(this._config.location.latitude, this._config.location.longitude);
+		var sunInfo = await this._sunSetRetriever.GetSunSetSunRise(this._config.location.latitude, this._config.location.longitude, today);
 
 		var activeProfile = await this._profileStore.GetActiveProfile(today);
 
