@@ -1,5 +1,6 @@
 import { Profile } from "./Profile";
 import { WeekStartingMonday } from "./Weekday";
+import "../DateExtensions";
 
 export class ProfileSchedule {
     constructor(private ProfileNames : string[], private WeekProfile: number[]) {

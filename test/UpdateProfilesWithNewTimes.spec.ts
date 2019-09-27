@@ -4,6 +4,7 @@ import { IConfiguration } from "../src/IConfiguration";
 import { SunSetSunRise } from "../src/Models/SunSetSunRise";
 import { InmemorySmartControlProfilesStore } from "./InmemorySmartControlProfilesStore";
 import { Profile } from "../src/Models/Profile";
+import { TimesAsNumbers } from "../src/Models/TimesAsNumber";
 
 let _usecase: UpdateProfilesWithNewTimes;
 let _sunsetStore: InmemorySunRiseRetriever;
@@ -63,8 +64,9 @@ describe("When Updating profiles", () => {
 
 function GivenAProfile() {
 	_profileStore.ActiveProfile = new Profile(
+		0,
 		"profile1",
-		[0,420,480,510,720,735,885,900,1170,1200,1290,1290,1439],
+		new TimesAsNumbers([0,420,480,510,720,735,885,900,1170,1200,1290,1290,1439]),
 		[0,0,30,100,100,30,30,100,100,30,0,0,0],
 		[10,10,15,50,50,30,30,50,50,20,10,10,10],
 		[0,0,60,100,100,30,30,100,100,50,0,0,0],

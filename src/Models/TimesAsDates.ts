@@ -1,3 +1,4 @@
-export class TimesAsDates extends Array<Date>{
-
+export class TimesAsDates {
+    constructor(public Content: Array<Date>) {
+    }
 }

@@ -10,8 +10,8 @@ declare global {
 
 Date.prototype.GetDayOfWeek = function (): DayOfWeek {
     return Week[this.getDay()];
-  };
+};
 
-  Date.prototype.AddDays = function(daysToAdd: number){
-      return new Date(this.getTime() + daysToAdd * millisecondsInADay);
-  }
+Date.prototype.AddDays = function (daysToAdd: number) {
+    return new Date(this.getTime() + daysToAdd * millisecondsInADay);
+}

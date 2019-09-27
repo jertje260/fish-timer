@@ -1,6 +1,8 @@
 import { ProfileSchedule } from "../src/Models/ProfileSchedule";
 import { Profile } from "../src/Models/Profile";
 import { DayOfWeek } from "../src/Models/Weekday";
+import { TimesAsDates } from "../src/Models/TimesAsDates";
+import { TimesAsNumbers } from "../src/Models/TimesAsNumber";
 
 describe('When getting previous day for profile', () => {
     describe('Given same profile everyday', () => {
@@ -36,10 +38,10 @@ describe('When getting previous day for profile', () => {
         it('running on monday, should result on saturday', () => {
             const schedule = GivenDifferentSchedule();
             const profile = GivenFirstProfile();
-            const result = schedule.GetPreviousDayForProfile(profile, new Date(2019, 8, 25));
+            const result = schedule.GetPreviousDayForProfile(profile, new Date(2019, 8, 23));
 
-            expect(result.GetDayOfWeek())
-                .toBe(DayOfWeek.Saturday);
+            expect(result)
+                .toBe(new Date(2019, 8, 21));
         });
     });
 
@@ -70,5 +72,5 @@ function GivenMondayOnlySchedule(): ProfileSchedule {
 }
 
 function GivenFirstProfile(): Profile {
-    return new Profile(0, '', [], [], [], [], [], [], []);
+    return new Profile(0, '', new TimesAsNumbers([]), [], [], [], [], [], []);
 }

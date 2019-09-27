@@ -1,3 +1,5 @@
-export class TimesAsNumber extends Array<number>{
-
+export class TimesAsNumbers {
+    constructor(public Content: Array<number>){
+        
+    }
 }

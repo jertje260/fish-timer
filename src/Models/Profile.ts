@@ -1,5 +1,5 @@
 import { tsConstructorType } from "@babel/types";
-import { TimesAsNumber } from "./TimesAsNumber";
+import { TimesAsNumbers } from "./TimesAsNumber";
 import { TimesAsDates } from "./TimesAsDates";
 
 export class Profile {
@@ -16,7 +16,7 @@ export class Profile {
 	constructor(
 		number: number,
 		name: string,
-		times: Date[],
+		times: TimesAsDates,
 		lightOne: number[],
 		lightTwo: number[],
 		lightThree: number[],
@@ -27,18 +27,18 @@ export class Profile {
 	constructor(
 		number: number,
 		name: string,
-		times: TimesAsNumber,
+		times: TimesAsNumbers,
 		lightOne: number[],
 		lightTwo: number[],
 		lightThree: number[],
 		lightFour: number[],
 		cloudIntensity: number[],
 		cloudMotion: number[]
-	);
+	)
 	constructor(
 		number: number,
 		name: string,
-		times: number[] | Date[],
+		times: TimesAsNumbers | TimesAsDates,
 		lightOne: number[],
 		lightTwo: number[],
 		lightThree: number[],
@@ -48,9 +48,11 @@ export class Profile {
 		this.Name = name;
 		this.Number = number;
 		if (times instanceof TimesAsDates) {
-			this.Times = times;
-		} else if (times instanceof TimesAsNumber) {
-			this.Times = this.GetTimesAsDate(times);
+			this.Times = times.Content;
+		} else if (times instanceof TimesAsNumbers) {
+			this.Times = this.GetTimesAsDate(times.Content);
+		} else{
+			throw new Error("did you use the proper constructor?");
 		}
 		this.LightOne = lightOne;
 		this.LightTwo = lightTwo;
