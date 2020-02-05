@@ -40,8 +40,8 @@ describe('When getting previous day for profile', () => {
             const profile = GivenFirstProfile();
             const result = schedule.GetPreviousDayForProfile(profile, new Date(2019, 8, 23));
 
-            expect(result)
-                .toBe(new Date(2019, 8, 21));
+            expect(result.GetDayOfWeek())
+                .toBe(DayOfWeek.Saturday);
         });
     });
 
@@ -52,7 +52,7 @@ describe('When getting previous day for profile', () => {
             const result = schedule.GetPreviousDayForProfile(profile, new Date(2019, 8, 23));
 
             expect(result)
-                .toBe(new Date(2019, 8, 16));
+                .toEqual(new Date(2019, 8, 16));
         });
     });
 
