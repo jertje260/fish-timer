@@ -6,7 +6,7 @@ import { InmemorySmartControlProfilesStore } from "./InmemorySmartControlProfile
 import { Profile } from "../src/Models/Profile";
 import { TimesAsNumbers } from "../src/Models/TimesAsNumber";
 
-let _usecase: UpdateProfilesWithNewTimes;
+let _useCase: UpdateProfilesWithNewTimes;
 let _sunsetStore: InmemorySunRiseRetriever;
 let _config: IConfiguration;
 let _profileStore: InmemorySmartControlProfilesStore;
@@ -25,36 +25,36 @@ describe("When Updating profiles", () => {
 				latitude: 1.1,
 				longitude: 1.1
 			},
-			smartControlIp: "http://192.168.0.1"
+			smartControlIp: "http://127.0.0.1"
 		}
-		_usecase = new UpdateProfilesWithNewTimes(_sunsetStore, _config, _profileStore);
+		_useCase = new UpdateProfilesWithNewTimes(_sunsetStore, _config, _profileStore);
 
 
 	});
 	it("Should retrieve sunrise & sunset", async () => {
 		GivenAProfile();
-		await _usecase.execute();
+		await _useCase.execute();
 		expect(_sunsetStore.Retrieved)
 			.toBe(true);
 	});
 
 	it("Should get todays active profile", async () => {
 		GivenAProfile();
-		await _usecase.execute();
+		await _useCase.execute();
 		expect(_profileStore.IsActiveProfileRetrieved)
 			.toBe(true);
 	});
 
 	it("Should store updated profile", async () => {
 		GivenAProfile();
-		await _usecase.execute();
+		await _useCase.execute();
 		expect(_profileStore.IsProfileUpdated)
 			.toBe(true);
 	});
 
 	it("Should have different times on profile", async () => {
 		GivenAProfile();
-		await _usecase.execute();
+		await _useCase.execute();
 		expect(_profileStore.UpdatedProfile!.Times)
 			.not
 			.toBe(_profileStore.ActiveProfile!.Times);
