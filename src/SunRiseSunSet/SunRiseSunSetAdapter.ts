@@ -1,5 +1,5 @@
 import { IRetrieveSunSetSunRise } from "../IRetrieveSunRiseSunSet";
-import { SunSetSunRise } from "../Models/SunSetSunRise";
+import { ISunSetSunRise } from "../Models/ISunSetSunRise";
 import * as request from "request-promise";
 import { SunRiseSunSetResponse } from "./SunRiseSunSetResponse";
 
@@ -9,11 +9,11 @@ export class SunRiseSunSetAdapter implements IRetrieveSunSetSunRise {
 		json: true
 	};
 
-	GetSunSetSunRise(latitude: number, longitude: number, day: Date): Promise<SunSetSunRise> {
-		return new Promise<SunSetSunRise>((resolve, reject) => {
+	GetSunSetSunRise(latitude: number, longitude: number, day: Date): Promise<ISunSetSunRise> {
+		return new Promise<ISunSetSunRise>((resolve, reject) => {
 			request.get(`${this.url}lat=${latitude}&lng=${longitude}&date=${day.getFullYear()}-${day.getMonth()+1}-${day.getDate()}&formatted=0`, this.options)
 				.then((response: SunRiseSunSetResponse) => {
-					const returnModel: SunSetSunRise = {
+					const returnModel: ISunSetSunRise = {
 						DayLength: response.results.day_length,
 						SunRise: response.results.sunrise,
 						SunSet: response.results.sunset

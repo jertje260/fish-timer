@@ -1,10 +1,11 @@
 import { UpdateProfilesWithNewTimes } from "../src/UpdateProfilesWithNewTimes";
 import { InmemorySunRiseRetriever } from "./InmemorySunRiseRetriever";
 import { IConfiguration } from "../src/IConfiguration";
-import { SunSetSunRise } from "../src/Models/SunSetSunRise";
+import { ISunSetSunRise } from "../src/Models/ISunSetSunRise";
 import { InmemorySmartControlProfilesStore } from "./InmemorySmartControlProfilesStore";
 import { Profile } from "../src/Models/Profile";
 import { TimesAsNumbers } from "../src/Models/TimesAsNumber";
+import { ProfileSchedule } from "../src/Models/ProfileSchedule";
 
 let _useCase: UpdateProfilesWithNewTimes;
 let _sunsetStore: InmemorySunRiseRetriever;
@@ -63,6 +64,14 @@ describe("When Updating profiles", () => {
 });
 
 function GivenAProfile() {
+	_profileStore.ProfileSchedule = new ProfileSchedule(["profile1"], [0,0,0,0,0,0,0]);
+	var today = new Date();
+	_sunsetStore.SunSetSunRises = [{
+		DayLength: 50_400,
+		SunRise :new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(),8,0,0),
+		SunSet : new Date(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(),22,0,0),
+	}];
+
 	_profileStore.ActiveProfile = new Profile(
 		0,
 		"profile1",

@@ -1,5 +1,5 @@
-import { SunSetSunRise } from "./Models/SunSetSunRise";
+import { ISunSetSunRise } from "./Models/ISunSetSunRise";
 
 export interface IRetrieveSunSetSunRise {
-	GetSunSetSunRise(latitude: number, longitude: number, day: Date): Promise<SunSetSunRise>
+	GetSunSetSunRise(latitude: number, longitude: number, day: Date): Promise<ISunSetSunRise>
 }

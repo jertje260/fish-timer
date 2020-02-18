@@ -15,7 +15,7 @@ export class InmemorySmartControlProfilesStore implements IStoreSmartControlProf
 		return new Promise((resolve, reject) => {
 			this.IsActiveProfileRetrieved = true;
 			if (this.ActiveProfile !== null) {
-				resolve(this.ActiveProfile);
+				return resolve(this.ActiveProfile);
 			}
 			reject(new Error("No profile given"));
 		})
@@ -33,7 +33,7 @@ export class InmemorySmartControlProfilesStore implements IStoreSmartControlProf
 		return new Promise((resolve, reject) => {
 			this.ScheduleRetrieved = true;
 			if (this.ProfileSchedule !== null) {
-				resolve(this.ProfileSchedule);
+				return resolve(this.ProfileSchedule);
 			}
 			reject(new Error("No schedule given"));
 		})

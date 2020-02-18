@@ -1,4 +1,4 @@
-export interface SunSetSunRise {
+export interface ISunSetSunRise {
 	/**
 	 * Time of sun rise in UTC
 	 */
