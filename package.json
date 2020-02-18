@@ -5,7 +5,10 @@
     "main": "main.ts",
     "scripts": {
         "test": "jest",
-        "test-watch": "jest --watch"
+        "test-watch": "jest --watch",
+        "clean": "rimraf ./dist",
+        "transpile": "tsc",
+        "build": "npm run clean && npm run transpile"
     },
     "repository": {
         "type": "git",
@@ -13,6 +16,31 @@
     },
     "author": "Jeroen Broekhuizen",
     "license": "ISC",
+    "jest": {
+        "globals": {
+            "ts-jest": {
+                "tsConfig": "tsconfig.json"
+            }
+        },
+        "collectCoverage": false,
+        "preset": "ts-jest",
+        "testMatch": [
+            "**/?(*.)+(spec|test).ts?(x)"
+        ],
+        "coverageDirectory": "coverage/",
+        "collectCoverageFrom": [
+            "src/**/*.{ts,js}",
+            "!src/**/*.d.ts"
+        ],
+        "coverageReporters": [
+            "text",
+            "cobertura"
+        ],
+        "reporters": [
+            "default",
+            "jest-junit"
+        ]
+    },
     "bugs": {
         "url": "https://github.com/jertje260/fish-timer/issues"
     },
@@ -22,10 +50,12 @@
         "request-promise": "^4.2.4"
     },
     "devDependencies": {
-        "@types/jest": "^24.0.18",
+        "@types/jest": "^24.0.23",
         "@types/node": "^12.7.3",
         "@types/request-promise": "^4.1.44",
         "jest": "^24.9.0",
+        "jest-junit": "^8.0.0",
+        "rimraf": "^3.0.2",
         "ts-jest": "^24.0.2",
         "typescript": "^3.7.5"
     }
