@@ -63,8 +63,8 @@ export class Profile {
 	}
 
 
-	GetTimesAsDate(timesInMinutes: number[]): Date[] {
-		let times: Date[] = [];
+	public GetTimesAsDate(timesInMinutes: number[]): Date[] {
+		const times: Date[] = [];
 		timesInMinutes.forEach(time => {
 			var date = new Date();
 			date.setSeconds(0);
@@ -72,6 +72,29 @@ export class Profile {
 			date.setHours(Math.floor(time / 60));
 			date.setMinutes(time % 60);
 			times.push(date);
+		});
+		return times;
+	}
+
+	public Clone(): Profile {
+		return new Profile(
+			this.Number,
+			this.Name, 
+			new TimesAsDates(this.Times), 
+			this.LightOne,
+			this.LightTwo,
+			this.LightThree,
+			this.LightFour,
+			this.CloudIntensity,
+			this.CloudMotion
+		)
+	}
+
+	public GetTimesAsArray(): number[]{
+		const times: number[] = [];
+		this.Times.forEach(date => {
+			const time = date.getHours() * 60 + date.getMinutes();
+			times.push(time);
 		});
 		return times;
 	}

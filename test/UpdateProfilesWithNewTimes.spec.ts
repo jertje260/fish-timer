@@ -26,6 +26,12 @@ describe("When Updating profiles", () => {
 				latitude: 1.1,
 				longitude: 1.1
 			},
+			profileConfig: {
+				0 : {
+					sunDownMatch: 9,
+					sunUpMatch: 3
+				}
+			},
 			smartControlIp: "http://127.0.0.1"
 		}
 		_useCase = new UpdateProfilesWithNewTimes(_sunsetStore, _config, _profileStore);
@@ -60,6 +66,45 @@ describe("When Updating profiles", () => {
 			.not
 			.toBe(_profileStore.ActiveProfile!.Times);
 			
+	});
+
+	it("Should have same amount times on profile", async () => {
+		GivenAProfile();
+		await _useCase.execute();
+		expect(_profileStore.UpdatedProfile!.Times.length)
+			.toBe(_profileStore.ActiveProfile!.Times.length);
+			
+	});
+
+	it("Should have all times on profile below 1440", async () => {
+		GivenAProfile();
+		await _useCase.execute();
+
+		const times = _profileStore.UpdatedProfile!.GetTimesAsArray();
+		times.forEach(time => {
+			expect(time).toBeLessThan(1440);
+		});
+	});
+
+	it("Should have all times on profile in correct order", async () => {
+		GivenAProfile();
+		await _useCase.execute();
+
+		let max = 0;
+		const times = _profileStore.UpdatedProfile!.GetTimesAsArray();
+		times.forEach(time => {
+			expect(time).toBeGreaterThanOrEqual(max);
+			max = time;
+		});
+	});
+
+	it("Should have all times on profile", async () => {
+		GivenAProfile();
+		await _useCase.execute();
+
+		const times = _profileStore.UpdatedProfile!.GetTimesAsArray();
+
+		expect(times).toEqual([0, 395, 452, 480, 736, 754, 937, 955, 1283, 1320, 1365, 1365, 1439]);
 	});
 });
 
