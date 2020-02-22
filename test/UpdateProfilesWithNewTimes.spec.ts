@@ -109,7 +109,6 @@ describe("When Updating profiles", () => {
 });
 
 function GivenAProfile() {
-	_profileStore.ProfileSchedule = new ProfileSchedule(["profile1"], [0,0,0,0,0,0,0]);
 	var today = new Date();
 	_sunsetStore.SunSetSunRises = [{
 		DayLength: 50_400,

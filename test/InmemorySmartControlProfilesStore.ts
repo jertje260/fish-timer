@@ -7,8 +7,6 @@ export class InmemorySmartControlProfilesStore implements IStoreSmartControlProf
 	public UpdatedProfile: Profile | null = null;
 	public IsActiveProfileRetrieved = false;
 	public IsProfileUpdated = false;
-	public ProfileSchedule: ProfileSchedule | null = null;
-	public ScheduleRetrieved = false;
 
 
 	GetActiveProfile(today: Date): Promise<Profile> {
@@ -28,15 +26,4 @@ export class InmemorySmartControlProfilesStore implements IStoreSmartControlProf
 			resolve();
 		})
 	}
-
-	GetProfileSchedule(): Promise<ProfileSchedule> {
-		return new Promise((resolve, reject) => {
-			this.ScheduleRetrieved = true;
-			if (this.ProfileSchedule !== null) {
-				return resolve(this.ProfileSchedule);
-			}
-			reject(new Error("No schedule given"));
-		})
-	}
-
 }
