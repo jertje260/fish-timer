@@ -32,7 +32,7 @@ steps:
     customCommand: 'run test-ci'
 
 - task: Npm@1
-  displayName: 'Build'
+  displayName: 'Run Build'
   inputs:
     command: custom
     verbose: false

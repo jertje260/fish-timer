@@ -21,7 +21,7 @@ steps:
     command: custom
     verbose: false
 	customCommand: 'install'
-	
+
 - task: Npm@1
   displayName: 'Run tests'
   inputs:
