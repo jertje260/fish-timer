@@ -12,7 +12,7 @@ trigger:
 steps:
 - task: NodeTool@0
   inputs:
-    versionSpec: '10.x'
+    versionSpec: '13.x'
     checkLatest: true
 
 - task: Npm@1
@@ -20,7 +20,7 @@ steps:
   inputs:
     command: custom
     verbose: false
-	customCommand: 'install'
+    customCommand: 'install'
 
 - task: Npm@1
   displayName: 'Run tests'
@@ -30,7 +30,7 @@ steps:
     customCommand: 'run test-ci'
 
 - task: Npm@1
-  displayName: 'Run build'
+  displayName: 'Run Build'
   inputs:
     command: custom
     verbose: false
@@ -40,7 +40,7 @@ steps:
   displayName: Publish Test Results
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '**/junit.xml'
+    testResultsFiles: '**/junit.xml' 
     testRunTitle: 'Tests'
   condition: always()
 
