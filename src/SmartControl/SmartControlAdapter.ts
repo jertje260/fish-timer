@@ -1,98 +1,100 @@
 import { IStoreSmartControlProfiles } from "../IStoreSmartControlProfiles";
 import { Profile } from "../Models/Profile";
-import * as http from "http";
-import * as querystring from "querystring";
+import * as request from "request-promise";
 import { TimesAsNumbers } from "../Models/TimesAsNumber";
 
 export class SmartControlAdapter implements IStoreSmartControlProfiles {
 	private Ip: string;
+
 	constructor(ip: string) {
 		this.Ip = ip;
+
 	}
 
+	public UpdateProfile(profile: Profile): Promise<void> {
+		return new Promise((resolve, reject) => {
+			request
+				.post("pedit", {
+					baseUrl: this.Ip,
+					encoding: "UTF8",
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+					formData: {
+						action: 30,
+						PNAME: profile.Name,
+						TIMES: profile.GetTimesAsArray(),
+						CH1: profile.LightOne,
+						CH2: profile.LightTwo,
+						CH3: profile.LightThree,
+						CH4: profile.LightFour,
+						CINT: profile.CloudIntensity,
+						CMOT: profile.CloudMotion,
+					}
+				})
+				.then(() => {
+					return resolve();
+				})
+				.catch((err) => {
+					return reject(`Failed to store updated profile ${err}`);
+				});
+		});
+	}
 
-	public GetActiveProfile(today: Date): Promise<Profile> {
-		// get current profile
-		// then form post to set current profile to edit
-		// then get editvars to get all profile settings
-
-		
-
+	public async GetActiveProfile(): Promise<Profile> {
+		const profileNumber = await this.getCurrentProfileNumber();
+		await this.setCurrentProfileAsEditable(profileNumber);
+		return await this.getCurrentEditableProfileVariables();
 	}
 
 	private getCurrentEditableProfileVariables(): Promise<Profile> {
 		return new Promise((resolve, reject) => {
-			http.get({
-				host: this.Ip,
-				port: 80,
-				path: 'profeditvars.js',
-			}, (res) => {
-				if (res.statusCode === 200) {
-					let body = "";
-					res.on("data", (chunk) => {
-						body += chunk;
-					});
-					res.on("end", () =>{
-						return resolve(this.parseBodyAsProfile(body));
+			request
+				.get("profeditvars.js",
+					{
+						baseUrl: this.Ip
 					})
-				} else {
-					return reject("Didn't receive successfull status code when getting active profile");
-				}
-			}).on("error", (error) => {
-				return reject(`Failed with error: ${error}`);
-			});
+				.then(res => {
+					return resolve(this.parseBodyAsProfile(res));
+				}).catch(err => {
+					return reject(`Didn't receive successfull response when retrieving profile vars ${err}`);
+				});
 		});
 	}
 
 	private setCurrentProfileAsEditable(profileNumber: number): Promise<void> {
 		return new Promise((resolve, reject) => {
-			const data = querystring.stringify({
-				profNum: profileNumber
-			});
-			const req = http.request({
-				method: "POST",
-				host: this.Ip,
-				port: 80,
-				path: 'profedit.html',
-				headers: {
-					"Content-Type": "multipart/form-data",
-					"Content-Length": Buffer.byteLength(data),
-				}
-			}, (res) => {
-				res.on("end", () => {
+			request
+				.post("profedit.html", {
+					baseUrl: this.Ip,
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+					formData: {
+						profNum: profileNumber
+					}
+				})
+				.then(() => {
 					return resolve();
 				})
-			});
-			req.on("error", (error) => {
-				return reject(`Failed to set profile to edit: ${error}`)
-			});
-
-			req.write(data);
-			req.end();
+				.catch(error => {
+					return reject(`Failed to set profile to edit: ${error}`);
+				});
 		});
 	}
 
 	private getCurrentProfileNumber(): Promise<number> {
 		return new Promise((resolve, reject) => {
-			http.get({
-				host: this.Ip,
-				port: 80,
-				path: 'statusvars.js',
-			}, (res) => {
-				if (res.statusCode === 200) {
-					let body = "";
-					res.on("data", (chunk) => {
-						body += chunk;
-					});
-					res.on("end", () =>{
-						return resolve(this.parseBodyAsProfile(body).Number);
-					})
-				} else {
-					return reject("Didn't receive successfull status code when getting active profile");
-				}
-			}).on("error", (error) => {
-				return reject(`Failed with error: ${error}`);
-			});
+			request
+				.get("statusvars.js", {
+					baseUrl: this.Ip,
+				})
+				.then(result => {
+					return resolve(this.parseBodyAsProfile(result).Number);
+				})
+				.catch(error => {
+					return reject(`Failed with error: ${error}`);
+				});
 		});
 	}
 
@@ -110,40 +112,40 @@ export class SmartControlAdapter implements IStoreSmartControlProfiles {
 
 		for (const pair of keyValuePairs) {
 			const splitPair = pair.split("=");
-			switch (splitPair[0]){
+			switch (splitPair[0]) {
 				case "profNum": {
 					profileNumber = parseInt(splitPair[1]);
 					break;
 				}
-				case "profile":{
-					profileName = splitPair[1];
+				case "profile": {
+					profileName = splitPair[1].replace("'", "");
 					break;
 				}
-				case "times":{
+				case "times": {
 					times = this.parseAsIntArray(splitPair[1]);
 					break;
 				}
-				case "CH1":{
+				case "CH1": {
 					lightOne = this.parseAsIntArray(splitPair[1]);
 					break;
 				}
-				case "CH2":{
+				case "CH2": {
 					lightTwo = this.parseAsIntArray(splitPair[1]);
 					break;
 				}
-				case "CH3":{
+				case "CH3": {
 					lightThree = this.parseAsIntArray(splitPair[1]);
 					break;
 				}
-				case "CH4":{
+				case "CH4": {
 					lightFour = this.parseAsIntArray(splitPair[1]);
 					break;
 				}
-				case "cI":{
+				case "cI": {
 					cloudIntensity = this.parseAsIntArray(splitPair[1]);
 					break;
 				}
-				case "cM":{
+				case "cM": {
 					cloudMovement = this.parseAsIntArray(splitPair[1]);
 					break;
 				}
@@ -161,9 +163,7 @@ export class SmartControlAdapter implements IStoreSmartControlProfiles {
 
 		return numbers;
 	}
-	public UpdateProfile(profile: Profile): Promise<void> {
-		throw new Error("Method not implemented.");
-	}
+
 
 
 }

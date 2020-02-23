@@ -9,7 +9,7 @@ export class InmemorySmartControlProfilesStore implements IStoreSmartControlProf
 	public IsProfileUpdated = false;
 
 
-	GetActiveProfile(today: Date): Promise<Profile> {
+	GetActiveProfile(): Promise<Profile> {
 		return new Promise((resolve, reject) => {
 			this.IsActiveProfileRetrieved = true;
 			if (this.ActiveProfile !== null) {

@@ -15,7 +15,7 @@ export class UpdateProfilesWithNewTimes {
 
 		var sunInfo = await this._sunSetRetriever.GetSunSetSunRise(this._config.location.latitude, this._config.location.longitude, today);
 
-		var activeProfile = await this._profileStore.GetActiveProfile(today);
+		var activeProfile = await this._profileStore.GetActiveProfile();
 
 		var newProfile = this.updateProfileToMatchTimes(activeProfile.Clone(), sunInfo);
 
