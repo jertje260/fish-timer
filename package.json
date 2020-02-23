@@ -2,14 +2,15 @@
     "name": "fish-timer",
     "version": "1.0.0",
     "description": "Update the times for the aquarium lights (HeliaLux Spectrum) to the dusk & dawn times",
-    "main": "main.ts",
+    "main": "dist/src/main.js",
     "scripts": {
         "test": "jest",
         "test-watch": "jest --watch",
         "test-ci": "jest --collect-coverage=true",
         "clean": "rimraf ./dist",
         "transpile": "tsc",
-        "build": "npm run clean && npm run transpile"
+        "build": "npm run clean && npm run transpile",
+        "start": "node dist/src/main.js"
     },
     "repository": {
         "type": "git",
