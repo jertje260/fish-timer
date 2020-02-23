@@ -63,12 +63,12 @@ steps:
   displayName: 'Login to Azure Container Registry'
   inputs:
     command: login
-    containerRegistry: $(dockerHub)
+    containerRegistry: DockerHub
 
 - task: Docker@2
   displayName: buildAndPush
   inputs:
-    containerRegistry: $(dockerHub)
+    containerRegistry: DockerHub
     repository: 'fish-timer'
     Dockerfile: Dockerfile
     tags: |
