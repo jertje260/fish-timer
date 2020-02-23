@@ -6,6 +6,7 @@
     "scripts": {
         "test": "jest",
         "test-watch": "jest --watch",
+        "test-ci": "jest --collect-coverage=true",
         "clean": "rimraf ./dist",
         "transpile": "tsc",
         "build": "npm run clean && npm run transpile"
