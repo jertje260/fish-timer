@@ -69,7 +69,7 @@ steps:
   displayName: buildAndPush
   inputs:
     containerRegistry: DockerHub
-    repository: 'fish-timer'
+    repository: 'dutchjer/fish-timer'
     Dockerfile: Dockerfile
     tags: |
       $(Build.BuildNumber)
