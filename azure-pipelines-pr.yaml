@@ -1,0 +1,55 @@
+name: 1.0.$(Date:yyyyMMdd)$(Rev:.r)
+
+resources:
+- repo: self
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+
+pr:
+- master
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '13.x'
+    checkLatest: true
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'install'
+
+- task: Npm@1
+  displayName: 'Run tests'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run test-ci'
+
+- task: Npm@1
+  displayName: 'Build'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run build'
+
+- task: PublishTestResults@2
+  displayName: Publish Test Results
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit.xml' 
+    testRunTitle: 'Tests'
+  condition: always()
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage from **/coverage.cobertura.xml'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/**/cobertura-coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+  condition: always()

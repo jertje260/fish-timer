@@ -1,0 +1,76 @@
+name: 1.0.$(Date:yyyyMMdd)$(Rev:.r)
+
+resources:
+- repo: self
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger:
+- master
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+    checkLatest: true
+
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    command: custom
+    verbose: false
+	customCommand: 'install'
+	
+- task: Npm@1
+  displayName: 'Run tests'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run test-ci'
+
+- task: Npm@1
+  displayName: 'Run build'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'run build'
+
+- task: PublishTestResults@2
+  displayName: Publish Test Results
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/junit.xml'
+    testRunTitle: 'Tests'
+  condition: always()
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage from **/coverage.cobertura.xml'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/**/cobertura-coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+  condition: always()
+
+- task: Npm@1
+  displayName: 'Remove not production packages'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'prune --production'
+
+- task: Docker@2
+  displayName: 'Login to Azure Container Registry'
+  inputs:
+    command: login
+    containerRegistry: $(dockerHub)
+
+- task: Docker@2
+  displayName: buildAndPush
+  inputs:
+    containerRegistry: $(dockerHub)
+    repository: 'jertje260/fish-timer'
+    Dockerfile: Dockerfile
+    tags: |
+      $(Build.BuildNumber)
+      latest
