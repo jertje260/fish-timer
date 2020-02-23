@@ -1,6 +1,5 @@
 export interface IConfiguration {
 	location: ILocation
-	smartControlIp: string
 	profileConfig: IProfilesConfig
 }
 

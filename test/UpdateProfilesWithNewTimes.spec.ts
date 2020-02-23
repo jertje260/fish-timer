@@ -1,11 +1,9 @@
 import { UpdateProfilesWithNewTimes } from "../src/UpdateProfilesWithNewTimes";
 import { InmemorySunRiseRetriever } from "./InmemorySunRiseRetriever";
 import { IConfiguration } from "../src/IConfiguration";
-import { ISunSetSunRise } from "../src/Models/ISunSetSunRise";
 import { InmemorySmartControlProfilesStore } from "./InmemorySmartControlProfilesStore";
 import { Profile } from "../src/Models/Profile";
 import { TimesAsNumbers } from "../src/Models/TimesAsNumber";
-import { ProfileSchedule } from "../src/Models/ProfileSchedule";
 
 let _useCase: UpdateProfilesWithNewTimes;
 let _sunsetStore: InmemorySunRiseRetriever;
@@ -32,7 +30,6 @@ describe("When Updating profiles", () => {
 					sunUpMatch: 3
 				}
 			},
-			smartControlIp: "http://127.0.0.1"
 		}
 		_useCase = new UpdateProfilesWithNewTimes(_sunsetStore, _config, _profileStore);
 
